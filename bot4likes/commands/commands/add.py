@@ -22,7 +22,7 @@ class TaskAddCommand(Command):
 
         owner_id, item_id = attachments['attach1'].split('_')
         attach_type = attachments['attach1_type']
-        if task_type == Task.REPOST_TYPE and attach_type != 'wall':
+        if ID_TYPES[task_type] == Task.REPOST_TYPE and attach_type != 'wall':
             return 'Репостить можно только посты'
 
         task = Task.create(customer_id=user.user_id, item_id=item_id, owner_id=owner_id,
