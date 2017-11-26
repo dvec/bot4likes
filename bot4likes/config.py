@@ -12,7 +12,7 @@ db_user = configuration['db']['user']
 db_password = configuration['db']['password']
 db_host = configuration['db']['host']
 
-bot_top_size = configuration['bot']['top_size']
+bot_top_size = int(configuration['bot']['top_size'])
 
 log_level = getattr(logging, configuration['log']['level'])
 log_file = configuration['log']['filename']
