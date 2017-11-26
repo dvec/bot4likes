@@ -5,7 +5,7 @@ from bot4likes.domain.task import Task, STR_TYPES
 
 class TasksCommands(Command):
     names = ['таски']
-    description = 'выводит список ваших тасков'
+    description = 'показать список всех заданий'
 
     @staticmethod
     def process(user, parsed, api, attachments):

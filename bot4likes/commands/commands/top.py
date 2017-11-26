@@ -5,7 +5,7 @@ from bot4likes.domain.user import User
 
 class TopCommand(Command):
     names = ['топ']
-    description = 'выводит 10 игроков с самым большим кол-вом баллов'
+    description = 'показать список пользователей с наибольшим количеством баллов'
 
     @staticmethod
     def process(user, parsed, api, attachments):

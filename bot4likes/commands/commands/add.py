@@ -4,7 +4,7 @@ from bot4likes.domain.task import Task, STR_TYPES, ID_TYPES
 
 class TaskAddCommand(Command):
     names = ['добавить']
-    description = 'добавляет таск'
+    description = 'добавить свое задание'
     pattern = '(\w+) (\d+)'
 
     @staticmethod

@@ -3,7 +3,7 @@ from bot4likes.commands.command_manager import CommandManager
 
 
 class HelpCommand(Command):
-    description = 'выводит список команд и их краткое описание'
+    description = 'получить список команд'
     names = ['помощь']
 
     @staticmethod

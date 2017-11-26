@@ -5,8 +5,8 @@ from bot4likes.domain.user import User
 
 
 class TaskCommand(Command):
-    names = ['таск', 'т']
-    description = 'выдает задание'
+    names = ['таск']
+    description = 'получить задание'
     pattern = '^(\w*)$'
 
     @staticmethod
@@ -87,21 +87,3 @@ class TaskCommand(Command):
             user.save()
 
         return prefix + '{} {}'.format(TaskCommand.get_action(task), task.url)
-
-
-class TaskLikeAliasCommand(Command):
-    names = ['тл']
-    description = 'выдает задание (только лайки)'
-
-    @staticmethod
-    def process(user, parsed, api, attachments):
-        return TaskCommand.process(user, 'лайк', api, attachments)
-
-
-class TaskRepostAliasCommand(Command):
-    names = ['тр']
-    description = 'выдает задание (только репосты)'
-
-    @staticmethod
-    def process(user, parsed, api, attachments):
-        return TaskCommand.process(user, 'репост', api, attachments)

@@ -4,7 +4,7 @@ from bot4likes.domain.database import database
 
 class TasksCommands(Command):
     names = ['реклама']
-    description = 'включает или выключает рекламу'
+    description = 'включить/выключить рекламу'
     pattern = '^$'
 
     @staticmethod

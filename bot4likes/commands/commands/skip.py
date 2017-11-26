@@ -4,7 +4,7 @@ from bot4likes.domain.database import database
 
 class SkipCommand(Command):
     names = ['пропустить']
-    description = 'убирает текущее задание'
+    description = 'пропустить данное задание'
 
     @staticmethod
     def process(user, parsed, api, attachments):
