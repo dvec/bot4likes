@@ -15,6 +15,7 @@ db_host = configuration['db']['host']
 bot_top_size = configuration['bot']['top_size']
 
 log_level = getattr(logging, configuration['log']['level'])
+log_file = configuration['log']['filename']
 log_fmt = configuration['log']['fmt']
 
 vk_group_id = configuration['vk']['group_id']
