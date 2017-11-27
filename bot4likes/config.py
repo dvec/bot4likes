@@ -1,3 +1,4 @@
+from time import time
 import logging
 import configparser
 
@@ -15,7 +16,8 @@ db_host = configuration['db']['host']
 bot_top_size = int(configuration['bot']['top_size'])
 
 log_level = getattr(logging, configuration['log']['level'])
-log_file = configuration['log']['filename']
+log_dir = configuration['log']['dir']
+log_file = '{}/log{}.log'.format(log_dir, int(time()))
 log_fmt = configuration['log']['fmt']
 
 vk_group_id = configuration['vk']['group_id']

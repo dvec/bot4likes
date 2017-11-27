@@ -54,8 +54,7 @@ class LongPoll:
         long_poll = VkLongPoll(self.group_sess)
         while True:
             try:
-                events = long_poll.check()
-                for event in events:
+                for event in long_poll.check():
                     yield event
             except Exception as e:
                 logging.exception(e)
