@@ -1,6 +1,7 @@
 import threading
 
 from peewee import fn
+from requests import ConnectionError
 from vk_api import VkApi
 from vk_api.longpoll import VkLongPoll, VkEventType
 
@@ -51,10 +52,16 @@ class LongPoll:
                                    last_name=user_info['last_name'], scores=0, tasks_done=[], send_ads=True)
 
     def __listen_long_poll(self):
-        long_poll = VkLongPoll(self.group_sess)
+        try:
+            long_poll = VkLongPoll(self.group_sess)
+        except ConnectionError as e:
+            self.logger.exception(e)
+            return
+
         while True:
             try:
-                for event in long_poll.check():
+                events = long_poll.listen()
+                for event in events:
                     yield event
             except Exception as e:
                 logging.exception(e)

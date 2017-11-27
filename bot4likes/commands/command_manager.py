@@ -8,8 +8,8 @@ from bot4likes.commands.command import Command
 class CommandManager:
     methods = None
 
-    @staticmethod
-    def __init__():
+    @classmethod
+    def __init__(cls):
         path = os.path.dirname(__file__)
         for root, _, files in os.walk(path):
             for f in files:
@@ -20,29 +20,29 @@ class CommandManager:
 
                     exec('import {}.{}'.format(root.replace(os.sep, '.')[1:], os.path.splitext(f)[0]))
 
-        CommandManager.methods = Command.__subclasses__()
+        cls.methods = Command.__subclasses__()
 
-    @staticmethod
-    def get_possible_methods(name):
+    @classmethod
+    def get_possible_methods(cls, name):
         possible_methods = []
-        for method in CommandManager.methods:
+        for method in cls.methods:
             if name in method.names:
                 possible_methods.append(method)
         return possible_methods
 
-    @staticmethod
-    def get_aliases(name):
-        for method in CommandManager.methods:
+    @classmethod
+    def get_aliases(cls, name):
+        for method in cls.methods:
             alias = method.aliases.get(name)
             if alias:
                 return alias
 
-    @staticmethod
-    def process(user, api, event):
+    @classmethod
+    def process(cls, user, api, event):
         text = event.text.lower()
         command = text.split(' ')[0]
         msg = ' '.join(text.split(' ')[1:])
-        possible_methods = CommandManager.get_possible_methods(command)
+        possible_methods = cls.get_possible_methods(command)
 
         if len(possible_methods) == 0:
             return 'Нет такой команды. Для того, чтобы получить их список, введите: "помощь"'

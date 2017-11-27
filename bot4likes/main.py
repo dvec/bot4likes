@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 
 from bot4likes.config import log_fmt, log_level, log_file, log_dir
 from bot4likes.longpoll import LongPoll
