@@ -10,6 +10,5 @@ class Command:
     help = 'нет страницы помощи'
 
     @staticmethod
-    @abstractmethod
     def process(user, parsed, api, attachments):
         pass

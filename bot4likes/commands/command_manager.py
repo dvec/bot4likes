@@ -44,7 +44,7 @@ class CommandManager:
         msg = ' '.join(text.split(' ')[1:])
         possible_methods = cls.get_possible_methods(command)
 
-        if len(possible_methods) == 0:
+        if not possible_methods:
             return 'Нет такой команды. Для того, чтобы получить их список, введите: "помощь"'
 
         for method in possible_methods:
