@@ -8,6 +8,8 @@ import os
 def configure_logger():
     try:
         os.makedirs(log_dir)
+    except FileExistsError:
+        pass
     finally:
         logging.basicConfig(filename=log_file, filemode='w+', format=log_fmt, level=log_level)
 
