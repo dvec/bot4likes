@@ -39,22 +39,20 @@ class TaskCommand(Command):
     def process(user, parsed, api, attachments):
         added = None
         if user.current_task is not None:
-            task = (Task()
-                    .select(Task, User)
-                    .join(User, on=(User.user_id == Task.customer_id))
-                    .where((Task.id == user.current_task) & (User.scores > Task.reward))
-                    .first())
-            if task is not None:
-                if TaskCommand.is_liked(user, api, task, [task.type]):
-                    client = User.get(User.user_id == task.customer_id)
-                    with database.transaction():
-                        user.scores += task.reward
-                        user.current_task = None
-                        user.tasks_done += [task.id]
-                        client.scores -= task.reward
-                        user.save()
-                        client.save()
-                        added = task.reward
+            task = Task().get(Task.id == user.current_task)
+            client = User.get(User.user_id == task.customer_id)
+            if client.scores < task.reward:
+                user.current_task = None
+            elif TaskCommand.is_liked(user, api, task, [task.type]):
+                client = User.get(User.user_id == task.customer_id)
+                with database.transaction():
+                    user.scores += task.reward
+                    user.current_task = None
+                    user.tasks_done += [task.id]
+                    client.scores -= task.reward
+                    user.save()
+                    client.save()
+                    added = task.reward
 
         if parsed:
             task_type = ID_TYPES.get(parsed)
@@ -72,7 +70,7 @@ class TaskCommand(Command):
                        (Task.customer_id != user.user_id) &
                        (User.scores > Task.reward) &
                        task_type_condition)
-                .order_by(User.scores.desc())
+                .order_by(Task.reward)
                 .first())
 
         prefix = ''
