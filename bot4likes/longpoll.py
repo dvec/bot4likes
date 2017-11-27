@@ -52,11 +52,7 @@ class LongPoll:
                                    last_name=user_info['last_name'], scores=0, tasks_done=[], send_ads=True)
 
     def __listen_long_poll(self):
-        try:
-            long_poll = VkLongPoll(self.group_sess)
-        except ConnectionError as e:
-            self.logger.exception(e)
-            return
+        long_poll = VkLongPoll(self.group_sess)
 
         while True:
             try:
