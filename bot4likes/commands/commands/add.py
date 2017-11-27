@@ -1,11 +1,12 @@
 from bot4likes.commands.command import Command
+from bot4likes.domain.database import database
 from bot4likes.domain.task import Task, STR_TYPES, ID_TYPES
 
 
 class TaskAddCommand(Command):
     names = ['добавить']
     description = 'добавить свое задание'
-    pattern = '(\w+) (\d+)'
+    pattern = '(\w*) (\d+)'
 
     @staticmethod
     def process(user, parsed, api, attachments):
@@ -17,15 +18,20 @@ class TaskAddCommand(Command):
         if len(attachments) != 2:
             return 'Вы должны репостнуть одно фото или пост'
 
-        if task_type not in STR_TYPES.values():
-            return 'Неизвестный тип'
-
         owner_id, item_id = attachments['attach1'].split('_')
         attach_type = attachments['attach1_type']
-        if ID_TYPES[task_type] == Task.REPOST_TYPE and attach_type != 'wall':
-            return 'Репостить можно только посты'
 
-        task = Task.create(customer_id=user.user_id, item_id=item_id, owner_id=owner_id,
-                           content_type=attach_type, type=ID_TYPES[task_type], reward=reward)
-        task.save()
+        if task_type and task_type not in STR_TYPES.values():
+            return 'Неизвестный тип'
+        elif attach_type == 'photo':
+            if ID_TYPES[task_type] == Task.REPOST_TYPE:
+                return 'Невозможно репостнуть фото'
+            task_type = Task.LIKE_TYPE
+        else:
+            return 'Вы должны указать тип таска (лайк или репост)'
+
+        with database.transaction():
+            task = Task.create(customer_id=user.user_id, item_id=item_id, owner_id=owner_id,
+                               content_type=attach_type, type=ID_TYPES[task_type], reward=reward)
+            task.save()
         return 'Таск добавлен. ID: {}'.format(task.id)

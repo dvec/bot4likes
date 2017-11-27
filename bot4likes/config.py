@@ -20,7 +20,4 @@ log_dir = configuration['log']['dir']
 log_file = '{}/log{}.log'.format(log_dir, int(time()))
 log_fmt = configuration['log']['fmt']
 
-vk_group_id = configuration['vk']['group_id']
 vk_url = 'https://vk.com/'
-vk_photo_url_pattern = vk_url + 'photo{}'
-vk_user_url_pattern = vk_url + 'id{}'
