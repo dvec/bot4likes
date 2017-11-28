@@ -78,7 +78,7 @@ class TaskCommand(Command):
             prefix = 'На ваш счет добавлено {} баллов. '.format(added)
 
         if task is None:
-            return prefix + 'Таски закончились :('
+            return prefix + 'Таски закончились :(. Немного подождите, прежде чем появятся новые'
 
         with database.transaction():
             user.current_task = task.id

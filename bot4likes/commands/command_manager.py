@@ -45,7 +45,8 @@ class CommandManager:
         possible_methods = cls.get_possible_methods(command)
 
         if not possible_methods:
-            return 'Нет такой команды. Для того, чтобы получить их список, введите: "помощь"'
+            return 'Нет такой команды. Напишите "таск" и выполните задание.\n' \
+                   'Для дополнительной информации напишите "помощь"'
 
         for method in possible_methods:
             if re.match(method.pattern, msg):

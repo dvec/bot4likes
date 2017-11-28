@@ -10,6 +10,7 @@ class HelpCommand(Command):
     @staticmethod
     def process(user, parsed, api, attachments):
         commands = '\n'.join(['{}. {}: {}'
-                      .format(i + 1, '|'.join(m.names), m.description) for i, m in enumerate(CommandManager.methods)])
+                             .format(i + 1, '|'.join(m.names), m.description) for i, m in
+                              enumerate(CommandManager.methods)])
 
         return 'Список команд: \n{}. \nГайд по использованию бота: {}'.format(commands, bot_guide)
