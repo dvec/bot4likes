@@ -1,5 +1,6 @@
 from bot4likes.commands.command import Command
 from bot4likes.commands.command_manager import CommandManager
+from bot4likes.config import bot_guide
 
 
 class HelpCommand(Command):
@@ -8,6 +9,7 @@ class HelpCommand(Command):
 
     @staticmethod
     def process(user, parsed, api, attachments):
-        return 'Список команд: \n{}'.format(
-            '\n'.join(['{}. {}: {}'
-                      .format(i + 1, '|'.join(m.names), m.description) for i, m in enumerate(CommandManager.methods)]))
+        commands = '\n'.join(['{}. {}: {}'
+                      .format(i + 1, '|'.join(m.names), m.description) for i, m in enumerate(CommandManager.methods)])
+
+        return 'Список команд: \n{}. \nГайд по использованию бота: {}'.format(commands, bot_guide)

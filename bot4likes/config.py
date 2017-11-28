@@ -25,6 +25,7 @@ db_host = configuration['db']['host']
 db_database = configuration['db']['database']
 db_password = configuration['db']['password']
 
+bot_guide = configuration['bot']['guide']
 bot_top_size = int(configuration['bot']['top_size'])
 
 log_dir = configuration['log']['dir']
