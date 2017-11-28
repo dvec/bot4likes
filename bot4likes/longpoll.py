@@ -2,7 +2,6 @@ import threading
 from time import sleep
 
 from peewee import fn
-from requests import ConnectionError
 from vk_api import VkApi, ApiError
 from vk_api.longpoll import VkLongPoll, VkEventType
 
@@ -30,10 +29,7 @@ class LongPoll:
 
         try:
             result = self.command_manager.process(self.__get_current_user(event.user_id), self.service_api, event)
-            if not result:
-                result = 'Готово'
-
-            self.group_api.messages.send(user_id=event.user_id, message=result)
+            self.group_api.messages.send(user_id=event.user_id, message=result if result else 'Готово')
         except Exception as e:
             self.logger.exception(e)
         else:

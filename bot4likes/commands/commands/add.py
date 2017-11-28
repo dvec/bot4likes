@@ -23,7 +23,7 @@ class TaskAddCommand(Command):
 
         if task_type and task_type not in STR_TYPES.values():
             return 'Неизвестный тип'
-        elif attach_type == 'photo':
+        elif attach_type == STR_TYPES[Task.LIKE_TYPE]:
             if ID_TYPES[task_type] == Task.REPOST_TYPE:
                 return 'Невозможно репостнуть фото'
             task_type = Task.LIKE_TYPE
