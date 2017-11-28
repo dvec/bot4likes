@@ -1,8 +1,9 @@
 import threading
+from time import sleep
 
 from peewee import fn
 from requests import ConnectionError
-from vk_api import VkApi
+from vk_api import VkApi, ApiError
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 from bot4likes.commands.command_manager import CommandManager
@@ -21,6 +22,7 @@ class LongPoll:
 
         self.service_api = VkApi(token=api_service_token).get_api()
 
+        self.long_poll = self.__get__long_poll()
         self.command_manager = CommandManager()
 
     def __handle_message(self, event):
@@ -51,17 +53,26 @@ class LongPoll:
                                    first_name=user_info['first_name'],
                                    last_name=user_info['last_name'], scores=0, tasks_done=[], send_ads=True)
 
-    def __listen_long_poll(self):
-        long_poll = VkLongPoll(self.group_sess)
+    def __get__long_poll(self):
+        try:
+            return VkLongPoll(self.group_sess)
+        except ApiError as e:
+            self.logger.exception(e)
+            sleep(15)
+            return self.__get__long_poll()
+        except RecursionError:
+            self.logger.error("Can't initialize long poll. Fuck vk")
+            exit(1)
 
+    def __listen_long_poll(self):
         while True:
             try:
-                events = long_poll.listen()
+                events = self.long_poll.listen()
                 for event in events:
                     yield event
             except Exception as e:
                 logging.exception(e)
-                long_poll.update_longpoll_server()
+                self.long_poll.update_longpoll_server()
 
     def handle(self):
         for event in self.__listen_long_poll():
