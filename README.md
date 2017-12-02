@@ -1,5 +1,5 @@
 # Bot for likes
-### Running
+### Configuring
 First, you're need to create security.properties in the root of the project. It must look like this:
 ```properties
 [api]
@@ -17,7 +17,8 @@ user=[Your PostgreSQL database user]
 password=[Your PostgreSQL database password]
 host=[Your PostgreSQL database host]
 ```
-Then just run **main.py**:
+### Running
+It's very simple. Just run make:
 ```
-python [project path]/bot4likes/main.py
+make run
 ```
