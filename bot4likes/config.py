@@ -14,11 +14,21 @@ def configure_logger():
         logging.basicConfig(filename=log_file, filemode='w+', format=log_fmt, level=log_level)
 
 
+def get_users(config):
+    users = []
+    for i in range(len(config)):
+        user_login = config.get('user{}.login'.format(i))
+        user_password = config.get('user{}.password'.format(i))
+        if user_login and user_password:
+            users.append((user_login, user_password))
+    return users
+
+
 configuration = configparser.RawConfigParser()
 configuration.read(['security.properties', 'application.properties'])
 
 api_group_token = configuration['api']['group_token']
-api_service_token = configuration['api']['service_token']
+api_users = get_users(configuration['api'])
 
 db_user = configuration['db']['user']
 db_host = configuration['db']['host']
