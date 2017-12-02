@@ -1,10 +1,15 @@
 import queue
-
-from vk_api import VkApiError, AuthError, VkApi
 from logging import getLogger
 
+from vk_api import VkApiError, AuthError, VkApi
 
-class Api:
+
+class AccountsBannedError(Exception):
+    pass
+
+
+# TODO REWRITE WITH ASYNC
+class ApiAllocator:
     def __init__(self, auth_data):
         self._apis = queue.Queue()
         for login, password in auth_data:
@@ -16,16 +21,14 @@ class Api:
             else:
                 self._apis.put_nowait(api)
 
-    def call(self, name, **kwargs):
+    def method(self, name, **kwargs):
         for i in range(self._apis.qsize()):
             api = self._apis.get_nowait()
             self._apis.put(api)
 
             try:
-                api.call(name, **kwargs)
+                return api.method(name, kwargs)
             except VkApiError:
                 pass
-            else:
-                break
         else:
-            getLogger().warning('Failed to call method. Please add new accounts')
+            raise AccountsBannedError('Failed to call method. Please add new accounts')

@@ -5,7 +5,7 @@ from peewee import fn
 from vk_api import VkApi, ApiError
 from vk_api.longpoll import VkLongPoll, VkEventType
 
-from bot4likes.api import Api
+from bot4likes.api import ApiAllocator
 from bot4likes.commands.command_manager import CommandManager
 from bot4likes.config import *
 from bot4likes.domain.database import database
@@ -20,7 +20,7 @@ class LongPoll:
         self.group_sess = VkApi(token=api_group_token)
         self.group_api = self.group_sess.get_api()
 
-        self.api = Api(api_users)
+        self.api = ApiAllocator(api_users)
 
         self.long_poll = self.__get__long_poll()
         self.command_manager = CommandManager()
@@ -40,7 +40,7 @@ class LongPoll:
         try:
             return User.get(user_id=user_id)
         except User.DoesNotExist:
-            user_info = self.api.call('users.get', user_ids=[user_id], fields='photo_id')[0]
+            user_info = self.api.method('users.get', user_ids=[user_id], fields='photo_id')[0]
             with database.transaction():
                 Task().create(customer_id=user_id, item_id=user_info['photo_id'].split('_')[1],
                               owner_id=user_id, content_type='photo', type=Task.LIKE_TYPE,
