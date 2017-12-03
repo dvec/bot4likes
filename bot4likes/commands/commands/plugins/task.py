@@ -84,4 +84,5 @@ class TaskCommand(Command):
             user.current_task = task.id
             user.save()
 
-        return prefix + '{} {}'.format(TaskCommand.get_action(task), task.url)
+        return prefix + '{} {}. Напишите "таск", когда вы выполните задание'\
+            .format(TaskCommand.get_action(task), task.url)
