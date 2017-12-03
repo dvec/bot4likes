@@ -1,3 +1,4 @@
+import logging
 import threading
 from time import sleep
 
@@ -6,18 +7,17 @@ from vk_api import VkApi, ApiError
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 from bot4likes.commands.command_manager import CommandManager
-from bot4likes.config import *
 from bot4likes.domain.database import database
 from bot4likes.domain.task import Task
 from bot4likes.domain.user import User
 
 
 class LongPoll:
-    def __init__(self):
-        self.group_sess = VkApi(token=api_group_token)
+    def __init__(self, group_token, user_login, user_password):
+        self.group_sess = VkApi(token=group_token)
         self.group_api = self.group_sess.get_api()
 
-        self.user_sess = VkApi(login=api_user_login, password=api_user_password)
+        self.user_sess = VkApi(login=user_login, password=user_password)
         self.user_sess.auth()
         self.user_api = self.user_sess.get_api()
 

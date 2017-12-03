@@ -32,5 +32,6 @@ log_dir = configuration['log']['dir']
 log_fmt = configuration['log']['fmt']
 log_file = '{}/log{}.log'.format(log_dir, int(time()))
 log_level = getattr(logging, configuration['log']['level'])
+configure_logger()
 
 vk_url = 'https://vk.com/'
