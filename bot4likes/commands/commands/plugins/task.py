@@ -68,7 +68,7 @@ class TaskCommand(Command):
                 .join(User, on=(User.user_id == Task.customer_id))
                 .where(~(Task.id << user.tasks_done) &
                        (Task.customer_id != user.user_id) &
-                       (User.scores > Task.reward) &
+                       (User.scores >= Task.reward) &
                        task_type_condition)
                 .order_by(Task.reward)
                 .first())
@@ -84,5 +84,5 @@ class TaskCommand(Command):
             user.current_task = task.id
             user.save()
 
-        return prefix + '{} {}. Напишите "таск", когда вы выполните задание'\
+        return prefix + '{} {}\nНапишите "таск", когда вы выполните задание'\
             .format(TaskCommand.get_action(task), task.url)
