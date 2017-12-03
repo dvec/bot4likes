@@ -40,11 +40,11 @@ class TaskCommand(Command):
         added = None
         if user.current_task is not None:
             task = Task().get(Task.id == user.current_task)
-            client = User.get(User.user_id == task.customer_id)
+            client = User.get(User.id == task.customer_id)
             if client.scores < task.reward:
                 user.current_task = None
             elif TaskCommand.is_liked(user, api, task, [task.type]):
-                client = User.get(User.user_id == task.customer_id)
+                client = User.get(User.id == task.customer_id)
                 with database.transaction():
                     user.scores += task.reward
                     user.current_task = None
@@ -65,7 +65,7 @@ class TaskCommand(Command):
 
         task = (Task()
                 .select()
-                .join(User, on=(User.user_id == Task.customer_id))
+                .join(User, on=(User.id == Task.customer_id))
                 .where(~(Task.id << user.tasks_done) &
                        (Task.customer_id != user.user_id) &
                        (User.scores >= Task.reward) &
