@@ -13,8 +13,6 @@ from bot4likes.domain.user import User
 
 
 class LongPoll:
-    logger = logging.getLogger()
-
     def __init__(self):
         self.group_sess = VkApi(token=api_group_token)
         self.group_api = self.group_sess.get_api()
@@ -27,22 +25,22 @@ class LongPoll:
         self.command_manager = CommandManager()
 
     def __handle_message(self, event):
-        self.logger.info("Performing message: {}".format(event.text))
+        logging.info("Performing message: {}".format(event.text))
 
         try:
             result = self.command_manager.process(self.__get_current_user(event.user_id), self.user_api, event)
         except Exception as e:
-            self.logger.exception(e)
+            logging.exception(e)
             result = 'Произошла внутренняя ошибка. Повторите попытку позже'
 
-        if result == '':
+        if not result:
             result = 'Готово'
 
         while 1:
             try:
                 self.group_api.messages.send(user_id=event.user_id, message=result)
             except Exception as e:
-                self.logger.exception(e)
+                logging.exception(e)
                 sleep(10)
             else:
                 logging.info("Send answer: {}".format(result.replace('\n', ' ')))
@@ -67,7 +65,7 @@ class LongPoll:
             try:
                 return VkLongPoll(self.group_sess)
             except ApiError as e:
-                self.logger.exception(e)
+                logging.exception(e)
                 sleep(10)
 
     def __listen_long_poll(self):
