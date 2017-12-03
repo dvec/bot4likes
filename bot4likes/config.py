@@ -1,8 +1,7 @@
-from time import time
-import logging
 import configparser
-
+import logging
 import os
+from time import time
 
 
 def configure_logger():
@@ -18,7 +17,8 @@ configuration = configparser.RawConfigParser()
 configuration.read(['security.properties', 'application.properties'])
 
 api_group_token = configuration['api']['group_token']
-api_service_token = configuration['api']['service_token']
+api_user_login = configuration['api']['user_login']
+api_user_password = configuration['api']['user_password']
 
 db_user = configuration['db']['user']
 db_host = configuration['db']['host']
