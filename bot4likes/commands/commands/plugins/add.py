@@ -31,7 +31,7 @@ class TaskAddCommand(Command):
             return 'Вы должны указать тип таска (лайк или репост)'
 
         with database.transaction():
-            task = Task.create(customer_id=user.user_id, item_id=item_id, owner_id=owner_id,
+            task = Task.create(customer_id=user.id, item_id=item_id, owner_id=owner_id,
                                content_type=attach_type, type=ID_TYPES[task_type], reward=reward)
             task.save()
         return 'Таск добавлен. ID: {}'.format(task.id)

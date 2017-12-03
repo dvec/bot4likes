@@ -52,13 +52,14 @@ class LongPoll:
         except User.DoesNotExist:
             user_info = self.user_api.users.get(user_ids=[user_id], fields='photo_id')[0]
             with database.transaction():
-                Task().create(customer_id=user_id, item_id=user_info['photo_id'].split('_')[1],
-                              owner_id=user_id, content_type='photo', type=Task.LIKE_TYPE,
-                              reward=Task().select(fn.avg(Task.reward) + 1).where(Task.type == Task.LIKE_TYPE))
-
-                return User.create(user_id=user_id, photo=user_info['photo_id'],
+                user = User.create(user_id=user_id, photo=user_info['photo_id'],
                                    first_name=user_info['first_name'],
                                    last_name=user_info['last_name'], scores=0, tasks_done=[], send_ads=True)
+
+                Task().create(customer_id=user.id, item_id=user_info['photo_id'].split('_')[1],
+                              owner_id=user_id, content_type='photo', type=Task.LIKE_TYPE,
+                              reward=Task().select(fn.avg(Task.reward) + 1).where(Task.type == Task.LIKE_TYPE))
+                return user
 
     def __get__long_poll(self):
         while 1:
