@@ -12,7 +12,7 @@ from bot4likes.domain.task import Task
 from bot4likes.domain.user import User
 
 
-class LongPoll:
+class Handler:
     def __init__(self, group_token, user_login, user_password):
         self.group_sess = VkApi(token=group_token)
         self.group_api = self.group_sess.get_api()
