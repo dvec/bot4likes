@@ -1,4 +1,4 @@
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta
 
 
 class Command:
@@ -7,6 +7,7 @@ class Command:
     names = []
     description = 'нет описания'
     pattern = '^$'
+    ignore = False
     help = 'нет страницы помощи'
 
     @staticmethod

@@ -7,6 +7,7 @@ from bot4likes.domain.user import User
 class TransferCommand(Command):
     names = ['перевод']
     description = 'перевести свои баллы другому участнику'
+    ignore = True
     pattern = '^{}(\w*) (\d)$'.format(vk_url)
 
     @staticmethod
