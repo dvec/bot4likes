@@ -67,7 +67,7 @@ class TaskCommand(Command):
                 .select()
                 .join(User, on=(User.id == Task.customer_id))
                 .where(~(Task.id << user.tasks_done) &
-                       (Task.customer_id != user.user_id) &
+                       (Task.customer_id != user.id) &
                        (User.scores >= Task.reward) &
                        task_type_condition)
                 .order_by(Task.reward)
