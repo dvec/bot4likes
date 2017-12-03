@@ -1,4 +1,4 @@
-from bot4likes.commands.command import Command
+from bot4likes.commands.commands.builtins.command import Command
 from bot4likes.config import vk_url
 from bot4likes.domain.database import database
 from bot4likes.domain.user import User

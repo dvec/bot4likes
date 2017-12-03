@@ -1,5 +1,5 @@
-from bot4likes.commands.command import Command
 from bot4likes.commands.command_manager import CommandManager
+from bot4likes.commands.commands.builtins.command import Command
 from bot4likes.config import bot_guide
 
 
