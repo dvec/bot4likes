@@ -31,11 +31,22 @@ class LongPoll:
 
         try:
             result = self.command_manager.process(self.__get_current_user(event.user_id), self.user_api, event)
-            self.group_api.messages.send(user_id=event.user_id, message=result if result else 'Готово')
         except Exception as e:
             self.logger.exception(e)
-        else:
-            logging.info("Send answer: {}".format(result.replace('\n', ' ')))
+            result = 'Произошла внутренняя ошибка. Повторите попытку позже'
+
+        if result == '':
+            result = 'Готово'
+
+        while 1:
+            try:
+                self.group_api.messages.send(user_id=event.user_id, message=result)
+            except Exception as e:
+                self.logger.exception(e)
+                sleep(10)
+            else:
+                logging.info("Send answer: {}".format(result.replace('\n', ' ')))
+                break
 
     def __get_current_user(self, user_id):
         try:
@@ -52,15 +63,12 @@ class LongPoll:
                                    last_name=user_info['last_name'], scores=0, tasks_done=[], send_ads=True)
 
     def __get__long_poll(self):
-        try:
-            return VkLongPoll(self.group_sess)
-        except ApiError as e:
-            self.logger.exception(e)
-            sleep(15)
-            return self.__get__long_poll()
-        except RecursionError:
-            self.logger.error("Can't initialize long poll. Fuck vk")
-            exit(1)
+        while 1:
+            try:
+                return VkLongPoll(self.group_sess)
+            except ApiError as e:
+                self.logger.exception(e)
+                sleep(10)
 
     def __listen_long_poll(self):
         while True:
