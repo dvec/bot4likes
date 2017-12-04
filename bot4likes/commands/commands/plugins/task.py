@@ -71,7 +71,7 @@ class TaskCommand(Command):
                        (Task.customer_id != user.id) &
                        (User.scores >= Task.reward) &
                        task_type_condition)
-                .order_by(Task.reward)
+                .order_by(Task.reward.desc())
                 .first())
 
         prefix = ''
