@@ -1,6 +1,6 @@
 from bot4likes.commands.commands.builtins.command import Command
 from bot4likes.domain.database import database
-from bot4likes.domain.task import Task, ID_TYPES
+from bot4likes.domain.task import Task, ID_TYPES, TaskType
 from bot4likes.domain.user import User
 
 
