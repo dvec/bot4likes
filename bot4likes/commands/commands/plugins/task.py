@@ -29,11 +29,10 @@ class TaskCommand(Command):
             'wall': 'post'
         }.get(task.content_type, task.content_type)
 
-        likes = api.method('likes.getList',
-                           type=content_type,
-                           owner_id=task.owner_id,
-                           item_id=task.item_id,
-                           filter=[api_filter])['items']
+        likes = api.likes.get_list(type=content_type,
+                                   owner_id=task.owner_id,
+                                   item_id=task.item_id,
+                                   filter=[api_filter])['items']
         return user.user_id in likes
 
     @staticmethod
@@ -85,5 +84,5 @@ class TaskCommand(Command):
             user.current_task = task.id
             user.save()
 
-        return prefix + '{} {}\nНапишите "таск", когда вы выполните задание'\
+        return prefix + '{} {}\nНапишите "таск", когда вы выполните задание' \
             .format(TaskCommand.get_action(task), task.url)
