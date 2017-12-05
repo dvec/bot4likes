@@ -1,13 +1,17 @@
+from enum import Enum
+
 from peewee import Model, IntegerField, CharField
 
 from bot4likes.config import vk_url
 from bot4likes.domain.database import database
 
 
-class Task(Model):
+class TaskType(Enum):
     LIKE_TYPE = 0
     REPOST_TYPE = 1
 
+
+class Task(Model):
     type = IntegerField()
     reward = IntegerField()
     item_id = IntegerField()
@@ -24,8 +28,8 @@ class Task(Model):
 
 
 STR_TYPES = {
-    Task.LIKE_TYPE: 'лайк',
-    Task.REPOST_TYPE: 'репост'
+    TaskType.LIKE_TYPE: 'лайк',
+    TaskType.REPOST_TYPE: 'репост'
 }
 
 ID_TYPES = dict(zip(STR_TYPES.values(), STR_TYPES.keys()))

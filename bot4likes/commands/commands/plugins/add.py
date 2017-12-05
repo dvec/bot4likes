@@ -1,6 +1,6 @@
 from bot4likes.commands.commands.builtins.command import Command
 from bot4likes.domain.database import database
-from bot4likes.domain.task import Task, STR_TYPES, ID_TYPES
+from bot4likes.domain.task import Task, STR_TYPES, ID_TYPES, TaskType
 
 
 class TaskAddCommand(Command):
@@ -23,10 +23,10 @@ class TaskAddCommand(Command):
 
         if task_type and task_type not in STR_TYPES.values():
             return 'Неизвестный тип'
-        elif attach_type == STR_TYPES[Task.LIKE_TYPE]:
-            if ID_TYPES[task_type] == Task.REPOST_TYPE:
+        elif attach_type == STR_TYPES[TaskType.LIKE_TYPE]:
+            if ID_TYPES[task_type] == TaskType.REPOST_TYPE:
                 return 'Невозможно репостнуть фото'
-            task_type = Task.LIKE_TYPE
+            task_type = TaskType.LIKE_TYPE
         else:
             return 'Вы должны указать тип таска (лайк или репост)'
 

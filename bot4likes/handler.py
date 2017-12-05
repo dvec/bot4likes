@@ -8,7 +8,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 
 from bot4likes.commands.command_manager import CommandManager
 from bot4likes.domain.database import database
-from bot4likes.domain.task import Task
+from bot4likes.domain.task import Task, TaskType
 from bot4likes.domain.user import User
 
 
@@ -57,8 +57,8 @@ class Handler:
                                    last_name=user_info['last_name'], scores=0, tasks_done=[], send_ads=True)
 
                 Task().create(customer_id=user.id, item_id=user_info['photo_id'].split('_')[1],
-                              owner_id=user_id, content_type='photo', type=Task.LIKE_TYPE,
-                              reward=Task().select(fn.avg(Task.reward) + 1).where(Task.type == Task.LIKE_TYPE))
+                              owner_id=user_id, content_type='photo', type=TaskType.LIKE_TYPE,
+                              reward=Task().select(fn.avg(Task.reward) + 1).where(Task.type == TaskType.LIKE_TYPE))
                 return user
 
     def __get__long_poll(self):

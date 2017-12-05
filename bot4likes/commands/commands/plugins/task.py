@@ -12,15 +12,15 @@ class TaskCommand(Command):
     @staticmethod
     def get_action(task):
         return {
-            Task.LIKE_TYPE: 'Лайкните',
-            Task.REPOST_TYPE: 'Репостните'
+            TaskType.LIKE_TYPE: 'Лайкните',
+            TaskType.REPOST_TYPE: 'Репостните'
         }[task.type]
 
     @staticmethod
     def get_filter(task):
         return {
-            Task.LIKE_TYPE: 'likes',
-            Task.REPOST_TYPE: 'copies'
+            TaskType.LIKE_TYPE: 'likes',
+            TaskType.REPOST_TYPE: 'copies'
         }[task.type]
 
     @staticmethod
