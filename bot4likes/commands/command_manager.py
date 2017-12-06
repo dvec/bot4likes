@@ -17,7 +17,7 @@ class CommandManager:
                     if root.startswith(pp):
                         root = root.replace(pp, '', 1)
 
-                    exec('import {}.{}'.format(root.replace(os.sep, '.')[1:], os.path.splitext(f)[0]))
+                    __import__('{}.{}'.format(root.replace(os.sep, '.')[1:], os.path.splitext(f)[0]))
 
         cls.methods = Command.__subclasses__()
 

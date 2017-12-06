@@ -11,6 +11,14 @@ class TaskType(Enum):
     REPOST_TYPE = 1
 
 
+STR_TYPES = {
+    TaskType.LIKE_TYPE: 'лайк',
+    TaskType.REPOST_TYPE: 'репост'
+}
+
+ID_TYPES = dict(zip(STR_TYPES.values(), STR_TYPES.keys()))
+
+
 class Task(Model):
     type = IntegerField()
     reward = IntegerField()
@@ -25,11 +33,3 @@ class Task(Model):
 
     class Meta:
         database = database
-
-
-STR_TYPES = {
-    TaskType.LIKE_TYPE: 'лайк',
-    TaskType.REPOST_TYPE: 'репост'
-}
-
-ID_TYPES = dict(zip(STR_TYPES.values(), STR_TYPES.keys()))

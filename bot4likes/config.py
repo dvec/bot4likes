@@ -10,7 +10,9 @@ def configure_logger():
     except FileExistsError:
         pass
     finally:
-        logging.basicConfig(filename=log_file, filemode='w+', format=log_fmt, level=log_level)
+        logging.basicConfig(format=log_fmt,
+                            level=log_level,
+                            handlers=[logging.FileHandler(log_file, mode='w'), logging.StreamHandler()])
 
 
 configuration = configparser.RawConfigParser()
