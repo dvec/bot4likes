@@ -1,12 +1,10 @@
-from enum import Enum
-
 from peewee import Model, IntegerField, CharField
 
 from bot4likes.config import vk_url
 from bot4likes.domain.database import database
 
 
-class TaskType(Enum):
+class TaskType:
     LIKE_TYPE = 0
     REPOST_TYPE = 1
 
