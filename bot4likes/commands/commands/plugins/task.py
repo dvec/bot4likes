@@ -5,7 +5,7 @@ from bot4likes.domain.user import User
 
 
 class TaskCommand(Command):
-    names = ['таск']
+    names = ['т', 'таск']
     description = 'получить задание'
     pattern = '^(\w*)$'
 
@@ -84,5 +84,5 @@ class TaskCommand(Command):
             user.current_task = task.id
             user.save()
 
-        return prefix + '{} {}\nНапишите "таск", когда вы выполните задание' \
+        return prefix + '{} {}\nНапишите "т", когда вы выполните задание' \
             .format(TaskCommand.get_action(task), task.url)

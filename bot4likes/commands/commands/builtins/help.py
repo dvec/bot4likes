@@ -5,12 +5,12 @@ from bot4likes.config import bot_guide
 
 class HelpCommand(Command):
     description = 'получить список команд'
-    names = ['помощь']
+    names = ['п', 'помощь']
 
     @staticmethod
     def process(user, parsed, api, attachments):
         commands = '\n'.join(['{}. {}: {}'
-                             .format(i + 1, '|'.join(m.names), m.description) for i, m in
+                             .format(i + 1, ' или '.join(map('"{}"'.format, m.names)), m.description) for i, m in
                               enumerate(filter(lambda x: not x.ignore, CommandManager.methods))])
 
         return 'Список команд: \n{}. \nГайд по использованию бота: {}'.format(commands, bot_guide)
