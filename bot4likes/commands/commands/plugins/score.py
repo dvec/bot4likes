@@ -2,7 +2,7 @@ from bot4likes.commands.commands.builtins.command import Command
 
 
 class ScoreCommand(Command):
-    names = ['c', 'счет']
+    names = ['с', 'счет']
     description = 'показать счет'
 
     @staticmethod
