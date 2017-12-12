@@ -61,7 +61,7 @@ class Handler:
 
                 Task().create(customer_id=user.id, item_id=user_info['photo_id'].split('_')[1],
                               owner_id=user_id, content_type='photo', type=TaskType.LIKE_TYPE,
-                              reward=Task().select(fn.avg(Task.reward) + 1).where(Task.type == TaskType.LIKE_TYPE))
+                              reward=Task().select(fn.avg(Task.reward)).where(Task.type == TaskType.LIKE_TYPE))
                 return user
 
     def _get__long_poll(self):
