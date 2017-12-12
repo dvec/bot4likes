@@ -7,6 +7,8 @@ from time import time
 def configure_logger():
     try:
         os.makedirs(log_dir)
+    except FileExistsError:
+        pass
     finally:
         logging.basicConfig(format=log_fmt,
                             level=log_level,
